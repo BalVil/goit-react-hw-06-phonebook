@@ -1,8 +1,12 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import contactActions from '../../redux/actions';
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
+import store from '../../redux/store';
 
-export const ContactForm = ({ onSubmit }) => {
+const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -63,6 +67,26 @@ export const ContactForm = ({ onSubmit }) => {
     </form>
   );
 };
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: data => {
+    const contactsState = store.getState().contacts.items;
+
+    const sameName =
+      contactsState.findIndex(
+        item => item.name.toLowerCase() === data.name.toLowerCase()
+      ) !== -1;
+
+    if (sameName) {
+      toast.warn(`${data.name} is already in contacts `);
+      return;
+    }
+
+    dispatch(contactActions.addContact(data));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(ContactForm);
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
