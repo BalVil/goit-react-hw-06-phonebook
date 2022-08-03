@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import contactActions from '../../redux/actions';
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
-import store from '../../redux/store';
+import { store } from '../../redux/store';
 
 const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
@@ -71,7 +71,6 @@ const ContactForm = ({ onSubmit }) => {
 const mapDispatchToProps = dispatch => ({
   onSubmit: data => {
     const contactsState = store.getState().contacts.items;
-
     const sameName =
       contactsState.findIndex(
         item => item.name.toLowerCase() === data.name.toLowerCase()
