@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import contactActions from '../../redux/actions';
-import PropTypes from 'prop-types';
+import { addContact } from 'redux/actions';
 import css from './ContactForm.module.css';
-import { store } from 'redux/store';
 
-const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -31,7 +31,23 @@ const ContactForm = ({ onSubmit }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    onSubmit({ name, number });
+    const sameName =
+      contacts.items.findIndex(
+        item => item.name.toLowerCase() === name.toLowerCase()
+      ) !== -1;
+
+    if (sameName) {
+      toast.warn(`${name} is already in contacts `);
+      // resetForm();
+      return;
+    }
+
+    dispatch(addContact({ name, number }));
+
+    resetForm();
+  };
+
+  const resetForm = () => {
     setName('');
     setNumber('');
   };
@@ -69,25 +85,4 @@ const ContactForm = ({ onSubmit }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: data => {
-    const contactsState = store.getState().contacts.items;
-    const sameName =
-      contactsState.findIndex(
-        item => item.name.toLowerCase() === data.name.toLowerCase()
-      ) !== -1;
-
-    if (sameName) {
-      toast.warn(`${data.name} is already in contacts `);
-      return;
-    }
-
-    dispatch(contactActions.addContact(data));
-  },
-});
-
-export default connect(null, mapDispatchToProps)(ContactForm);
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
+export default ContactForm;
