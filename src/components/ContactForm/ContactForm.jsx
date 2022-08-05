@@ -1,61 +1,13 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { addContact } from 'redux/actions';
-import css from './ContactForm.module.css';
+import { Form, Button, FormLabel } from './ContactForm.styled';
+import { useAddContact } from 'hooks/useAddContact';
 
 const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  const contacts = useSelector(state => state.contacts);
-  const dispatch = useDispatch();
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-
-      case 'number':
-        setNumber(value);
-        break;
-
-      default:
-        return;
-    }
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const sameName =
-      contacts.items.findIndex(
-        item => item.name.toLowerCase() === name.toLowerCase()
-      ) !== -1;
-
-    if (sameName) {
-      toast.warn(`${name} is already in contacts `);
-      // resetForm();
-      return;
-    }
-
-    dispatch(addContact({ name, number }));
-
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setName('');
-    setNumber('');
-  };
+  const { name, number, handleChange, handleSubmit } = useAddContact();
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit} className={css.form}>
+    <Form autoComplete="off" onSubmit={handleSubmit}>
       <label htmlFor="name">
-        <p className={css.label__form}>Name</p>
+        <FormLabel>Name</FormLabel>
         <input
           value={name}
           onChange={handleChange}
@@ -68,7 +20,7 @@ const ContactForm = () => {
         />
       </label>
       <label htmlFor="number">
-        <p className={css.label__form}>Number</p>
+        <FormLabel>Number</FormLabel>
         <input
           value={number}
           onChange={handleChange}
@@ -80,8 +32,8 @@ const ContactForm = () => {
           required
         />
       </label>
-      <button type="submit">Add contact</button>
-    </form>
+      <Button type="submit">Add contact</Button>
+    </Form>
   );
 };
 

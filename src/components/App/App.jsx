@@ -1,24 +1,26 @@
+import { GlobalStyle } from 'components/GlobalStyle';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'modern-normalize';
-import css from './App.module.css';
+import { Container, Section, Title } from './App.styled';
 import ContactForm from 'components/ContactForm/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
 
 export const App = () => {
   return (
-    <div className={css.container}>
-      <section className={css.section}>
-        <h1 className={css.title}>Phonebook</h1>
+    <Container>
+      <Section>
+        <Title>Phonebook</Title>
         <ContactForm />
-      </section>
-      <section className={css.section}>
-        <h2 className={css.title}>Contacts</h2>
+      </Section>
+      <Section>
+        <h2>Contacts</h2>
         <Filter />
         <ContactList />
-      </section>
+      </Section>
       <ToastContainer autoClose={3000} transition={Slide} />
-    </div>
+      <GlobalStyle />
+    </Container>
   );
 };

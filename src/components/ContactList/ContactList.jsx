@@ -1,21 +1,9 @@
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { ContactItem } from 'components/ContactItem/ContactItem';
+import { useContactList } from 'hooks/useContactList';
 
 const ContactList = () => {
-  const getFilteredContacts = (allContacts, filter) => {
-    const normalizedFilter = filter.toLowerCase();
-
-    return allContacts.filter(({ name }) =>
-      name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  const { items, filter } = useSelector(state => {
-    return state.contacts;
-  });
-
-  const visibleContacts = getFilteredContacts(items, filter);
+  const { visibleContacts } = useContactList();
 
   return (
     <ul>

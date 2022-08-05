@@ -1,9 +1,0 @@
-.label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.label__filter {
-  margin-bottom: 4px;
-}
