@@ -12,13 +12,15 @@ export const ContactItem = ({ id, name, number }) => {
   const dispatch = useDispatch();
 
   return (
-    <Contact>
-      <ContactName>{name}:</ContactName>
-      <ContactNumber>{number}</ContactNumber>
-      <DelButton type="button" onClick={() => dispatch(delContact(id))}>
-        Delete
-      </DelButton>
-    </Contact>
+    <li>
+      <Contact>
+        <ContactName>{name}:</ContactName>
+        <ContactNumber>{number}</ContactNumber>
+        <DelButton type="button" onClick={() => dispatch(delContact(id))}>
+          Delete
+        </DelButton>
+      </Contact>
+    </li>
   );
 };
 
