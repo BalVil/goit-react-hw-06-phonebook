@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button } from '../ContactForm/ContactForm.styled';
 
-export const Contact = styled.label`
+export const Contact = styled.li`
   position: relative;
   display: flex;
   align-items: center;
